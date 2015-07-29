@@ -18,7 +18,9 @@ type
     bText: TRadioButton;
     bHorz: TRadioButton;
     bVert: TRadioButton;
+    bNeedle: TRadioButton;
     TrackBar1: TTrackBar;
+    procedure bNeedleChange(Sender: TObject);
     procedure chkBorderChange(Sender: TObject);
     procedure chkShowtextChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -51,9 +53,10 @@ begin
   g:= tgauge.create(Self);
   g.parent:= self;
   g.align:= alTop;
+  g.height:= 100;
   g.BorderSpacing.Around:= 6;
 
-  g.ForeColor:= clMoneyGreen;
+  g.ForeColor:= clGreen;
   g.BackColor:= clYellow;
 
   g.MinValue:= cMin;
@@ -91,6 +94,11 @@ end;
 procedure TForm1.chkBorderChange(Sender: TObject);
 begin
   if chkBorder.Checked then g.BorderStyle:= bssingle else g.BorderStyle:= bsnone;
+end;
+
+procedure TForm1.bNeedleChange(Sender: TObject);
+begin
+  g.kind:= gkNeedle;
 end;
 
 procedure TForm1.chkShowtextChange(Sender: TObject);

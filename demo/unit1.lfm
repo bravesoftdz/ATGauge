@@ -1,10 +1,10 @@
 object Form1: TForm1
   Left = 470
-  Height = 254
+  Height = 333
   Top = 242
   Width = 478
   Caption = 'Gauge demo'
-  ClientHeight = 254
+  ClientHeight = 333
   ClientWidth = 478
   OnCreate = FormCreate
   OnShow = FormShow
@@ -13,7 +13,7 @@ object Form1: TForm1
   object chkBorder: TCheckBox
     Left = 264
     Height = 24
-    Top = 64
+    Top = 120
     Width = 97
     Caption = 'border set'
     Checked = True
@@ -24,8 +24,8 @@ object Form1: TForm1
   object TrackBar1: TTrackBar
     Left = 16
     Height = 46
-    Top = 72
-    Width = 200
+    Top = 128
+    Width = 160
     Max = 100
     OnChange = TrackBar1Change
     Position = 0
@@ -34,7 +34,7 @@ object Form1: TForm1
   object chkShowtext: TCheckBox
     Left = 264
     Height = 24
-    Top = 94
+    Top = 144
     Width = 92
     Caption = 'show text'
     Checked = True
@@ -44,11 +44,11 @@ object Form1: TForm1
   end
   object GroupBox1: TGroupBox
     Left = 264
-    Height = 99
-    Top = 136
+    Height = 144
+    Top = 176
     Width = 145
     Caption = 'kind'
-    ClientHeight = 80
+    ClientHeight = 125
     ClientWidth = 141
     TabOrder = 3
     object bText: TRadioButton
@@ -79,6 +79,15 @@ object Form1: TForm1
       Caption = 'vert bar'
       OnChange = bVertChange
       TabOrder = 2
+    end
+    object bNeedle: TRadioButton
+      Left = 8
+      Height = 24
+      Top = 72
+      Width = 71
+      Caption = 'needle'
+      OnChange = bNeedleChange
+      TabOrder = 3
     end
   end
 end

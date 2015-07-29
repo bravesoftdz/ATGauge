@@ -14,7 +14,7 @@ uses
   Classes, SysUtils, Graphics, Controls;
 
 type
-  TGaugeKind = (gkText, gkHorizontalBar, gkVerticalBar);
+  TGaugeKind = (gkText, gkHorizontalBar, gkVerticalBar, gkNeedle);
 
 const
   cInitGaugeValue = 20;
@@ -37,6 +37,7 @@ type
     FShowText: boolean;
     procedure DoPaintTo(C: TCanvas; r: TRect);
     function GetPercentDone: integer;
+    function GetPartDoneFloat: Double;
     procedure SetColorBorder(AValue: TColor);
     procedure SetBorderStyle(AValue: TBorderStyle);
     procedure SetColorBack(AValue: TColor);
@@ -58,6 +59,7 @@ type
     property Align;
     property BorderStyle: TBorderStyle read FBorderStyle write SetBorderStyle default bsSingle;
     property BorderSpacing;
+    property Color;
     property Font;
     property ParentFont;
     property ParentShowHint;
@@ -83,6 +85,7 @@ var
   NSize: integer;
   StrSize: TSize;
   Str: string;
+  Alfa: double;
 begin
   //paint backgrd
   C.Pen.Color:= FColorBack;
@@ -98,14 +101,33 @@ begin
     gkHorizontalBar:
       begin
         C.Brush.Color:= FColorFore;
-        NSize:= Round((r.Right-r.Left) * (FProgress-FMinValue) / (FMaxValue-FMinValue));
+        NSize:= Round((r.Right-r.Left) * GetPartDoneFloat);
         C.FillRect(r.Left, r.Top, r.Left+NSize, r.Bottom);
       end;
     gkVerticalBar:
       begin
         C.Brush.Color:= FColorFore;
-        NSize:= Round((r.Bottom-r.Top) * (FProgress-FMinValue) / (FMaxValue-FMinValue));
+        NSize:= Round((r.Bottom-r.Top) * GetPartDoneFloat);
         C.FillRect(r.Left, r.Bottom-NSize, r.Right, r.Bottom);
+      end;
+    gkNeedle:
+      begin
+        C.Brush.Color:= Color;
+        C.Pen.Color:= Color;
+        C.FillRect(r);
+
+        C.Pen.Color:= FColorFore;
+        C.Brush.Color:= FColorBack;
+        C.Pie(r.Left, r.Top, r.Right-1, r.Bottom+(r.Bottom-r.Top),
+          r.Right, r.Bottom,
+          r.Left, r.Bottom);
+
+        Alfa:= pi*GetPartDoneFloat;
+        C.Pie(r.Left, r.Top, r.Right-1, r.Bottom+(r.Bottom-r.Top),
+          r.Left-Round(1000*cos(Alfa)),
+          r.Bottom-Round(1000*sin(Alfa)),
+          r.Left,
+          r.Bottom);
       end;
   end;
 
@@ -133,9 +155,14 @@ begin
   end;
 end;
 
+function TGauge.GetPartDoneFloat: Double;
+begin
+  Result:= (FProgress-FMinValue) / (FMaxValue-FMinValue);
+end;
+
 function TGauge.GetPercentDone: integer;
 begin
-  Result:= Round(100 * (FProgress-FMinValue) / (FMaxValue-FMinValue));
+  Result:= Round(100 * GetPartDoneFloat);
 end;
 
 procedure TGauge.SetColorBorder(AValue: TColor);
@@ -233,6 +260,7 @@ begin
   FKind:= cInitGaugeKind;
   FBorderStyle:= bsSingle;
 
+  Color:= clBtnFace;
   FColorBack:= clWhite;
   FColorFore:= clNavy;
   FColorBorder:= clBlack;
