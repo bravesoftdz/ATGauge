@@ -35,7 +35,13 @@ procedure TForm1.Timer1Timer(Sender: TObject);
 begin
   with Gauge1 do
     if progress>=MaxValue then
-      progress:= MinValue
+    begin
+      progress:= MinValue;
+      if kind=gkHorizontalBar then
+        kind:= gkVerticalBar
+      else
+        kind:= gkHorizontalBar;
+    end
     else
       AddProgress(2);
 end;

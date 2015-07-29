@@ -10,14 +10,14 @@ object Form1: TForm1
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '1.5'
-  object CheckBox1: TCheckBox
+  object chkBorder: TCheckBox
     Left = 264
     Height = 24
     Top = 64
     Width = 97
     Caption = 'border set'
     Checked = True
-    OnChange = CheckBox1Change
+    OnChange = chkBorderChange
     State = cbChecked
     TabOrder = 0
   end
@@ -31,15 +31,54 @@ object Form1: TForm1
     Position = 0
     TabOrder = 1
   end
-  object CheckBox2: TCheckBox
+  object chkShowtext: TCheckBox
     Left = 264
     Height = 24
     Top = 94
     Width = 92
     Caption = 'show text'
     Checked = True
-    OnChange = CheckBox2Change
+    OnChange = chkShowtextChange
     State = cbChecked
     TabOrder = 2
+  end
+  object GroupBox1: TGroupBox
+    Left = 264
+    Height = 99
+    Top = 136
+    Width = 145
+    Caption = 'kind'
+    ClientHeight = 80
+    ClientWidth = 141
+    TabOrder = 3
+    object bText: TRadioButton
+      Left = 8
+      Height = 24
+      Top = 0
+      Width = 54
+      Caption = 'text'
+      Checked = True
+      OnChange = bTextChange
+      TabOrder = 0
+      TabStop = True
+    end
+    object bHorz: TRadioButton
+      Left = 8
+      Height = 24
+      Top = 24
+      Width = 82
+      Caption = 'horz bar'
+      OnChange = bHorzChange
+      TabOrder = 1
+    end
+    object bVert: TRadioButton
+      Left = 8
+      Height = 24
+      Top = 48
+      Width = 79
+      Caption = 'vert bar'
+      OnChange = bVertChange
+      TabOrder = 2
+    end
   end
 end

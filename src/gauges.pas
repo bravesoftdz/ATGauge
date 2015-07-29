@@ -4,7 +4,7 @@ Written for Lazarus LCL
 License: MPL 2.0 or LGPL or any license which LCL can use
 }
 
-unit gauges;
+unit Gauges;
 
 {$mode objfpc}{$H+}
 
@@ -13,16 +13,21 @@ interface
 uses
   Classes, SysUtils, Graphics, Controls;
 
+type
+  TGaugeKind = (gkText, gkHorizontalBar, gkVerticalBar);
+
 const
-  cInitiallGaugeValue = 20;
+  cInitGaugeValue = 20;
+  cInitGaugeKind = gkHorizontalBar;
 
 type
   { TGauge }
 
   TGauge = class(TGraphicControl)
   private
-    FBorderStyle: TBorderStyle;
     FBitmap: TBitmap;
+    FBorderStyle: TBorderStyle;
+    FKind: TGaugeKind;
     FColorBack,
     FColorFore,
     FColorBorder: TColor;
@@ -36,6 +41,7 @@ type
     procedure SetBorderStyle(AValue: TBorderStyle);
     procedure SetColorBack(AValue: TColor);
     procedure SetColorFore(AValue: TColor);
+    procedure SetKind(AValue: TGaugeKind);
     procedure SetMaxValue(AValue: integer);
     procedure SetMinValue(AValue: integer);
     procedure SetProgress(AValue: integer);
@@ -53,7 +59,8 @@ type
     property BorderStyle: TBorderStyle read FBorderStyle write SetBorderStyle default bsSingle;
     property BorderSpacing;
     property Font;
-    property Progress: integer read FProgress write SetProgress default cInitiallGaugeValue;
+    property Kind: TGaugeKind read FKind write SetKind default cInitGaugeKind;
+    property Progress: integer read FProgress write SetProgress default cInitGaugeValue;
     property MinValue: integer read FMinValue write SetMinValue default 0;
     property MaxValue: integer read FMaxValue write SetMaxValue default 100;
     property BackColor: TColor read FColorBack write SetColorBack default clWhite;
@@ -80,10 +87,25 @@ begin
   C.Brush.Color:= FColorBack;
   C.FillRect(r);
 
-  //paint bar
-  C.Brush.Color:= FColorFore;
-  NSize:= Round((r.Right-r.Left) * (FProgress-FMinValue) / (FMaxValue-FMinValue));
-  C.FillRect(r.Left, r.Top, r.Left+NSize, r.Bottom);
+  //paint progress color9
+  case FKind of
+    gkText:
+      begin
+        //none
+      end;
+    gkHorizontalBar:
+      begin
+        C.Brush.Color:= FColorFore;
+        NSize:= Round((r.Right-r.Left) * (FProgress-FMinValue) / (FMaxValue-FMinValue));
+        C.FillRect(r.Left, r.Top, r.Left+NSize, r.Bottom);
+      end;
+    gkVerticalBar:
+      begin
+        C.Brush.Color:= FColorFore;
+        NSize:= Round((r.Bottom-r.Top) * (FProgress-FMinValue) / (FMaxValue-FMinValue));
+        C.FillRect(r.Left, r.Bottom-NSize, r.Right, r.Bottom);
+      end;
+  end;
 
   //paint text
   if FShowText then
@@ -139,6 +161,13 @@ procedure TGauge.SetColorFore(AValue: TColor);
 begin
   if FColorFore=AValue then Exit;
   FColorFore:=AValue;
+  Update;
+end;
+
+procedure TGauge.SetKind(AValue: TGaugeKind);
+begin
+  if FKind=AValue then Exit;
+  FKind:=AValue;
   Update;
 end;
 
@@ -199,14 +228,16 @@ begin
   FBitmap:= TBitmap.Create;
   FBitmap.SetSize(500, 80);
 
+  FKind:= cInitGaugeKind;
   FBorderStyle:= bsSingle;
+
   FColorBack:= clWhite;
   FColorFore:= clNavy;
   FColorBorder:= clBlack;
 
   FMinValue:= 0;
   FMaxValue:= 100;
-  FProgress:= cInitiallGaugeValue;
+  FProgress:= cInitGaugeValue;
   FShowText:= true;
 end;
 

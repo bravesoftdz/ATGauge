@@ -12,13 +12,20 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
-    CheckBox1: TCheckBox;
-    CheckBox2: TCheckBox;
+    chkBorder: TCheckBox;
+    chkShowtext: TCheckBox;
+    GroupBox1: TGroupBox;
+    bText: TRadioButton;
+    bHorz: TRadioButton;
+    bVert: TRadioButton;
     TrackBar1: TTrackBar;
-    procedure CheckBox1Change(Sender: TObject);
-    procedure CheckBox2Change(Sender: TObject);
+    procedure chkBorderChange(Sender: TObject);
+    procedure chkShowtextChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure bTextChange(Sender: TObject);
+    procedure bHorzChange(Sender: TObject);
+    procedure bVertChange(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
   private
     { private declarations }
@@ -39,7 +46,7 @@ implementation
 procedure TForm1.FormCreate(Sender: TObject);
 const
   cMin = 15;
-  cMax = 102;
+  cMax = 122;
 begin
   g:= tgauge.create(Self);
   g.parent:= self;
@@ -57,7 +64,23 @@ end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+  bHorz.Checked:= true;
   TrackBar1.Position:= 30;
+end;
+
+procedure TForm1.bTextChange(Sender: TObject);
+begin
+  g.kind:= gkText;
+end;
+
+procedure TForm1.bHorzChange(Sender: TObject);
+begin
+  g.kind:= gkHorizontalBar;
+end;
+
+procedure TForm1.bVertChange(Sender: TObject);
+begin
+  g.kind:= gkVerticalBar;
 end;
 
 procedure TForm1.TrackBar1Change(Sender: TObject);
@@ -65,14 +88,14 @@ begin
   g.Progress:= TrackBar1.Position;
 end;
 
-procedure TForm1.CheckBox1Change(Sender: TObject);
+procedure TForm1.chkBorderChange(Sender: TObject);
 begin
-  if checkbox1.Checked then g.BorderStyle:= bssingle else g.BorderStyle:= bsnone;
+  if chkBorder.Checked then g.BorderStyle:= bssingle else g.BorderStyle:= bsnone;
 end;
 
-procedure TForm1.CheckBox2Change(Sender: TObject);
+procedure TForm1.chkShowtextChange(Sender: TObject);
 begin
-  g.ShowText:= checkbox2.Checked;
+  g.ShowText:= chkShowtext.Checked;
 end;
 
 end.
