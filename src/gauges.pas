@@ -84,6 +84,14 @@ uses
 { TGauge }
 
 procedure TGauge.DoPaintTo(C: TCanvas; r: TRect);
+  //
+  procedure DoFillBG(AColor: TColor);
+  begin
+    C.Pen.Color:= AColor;
+    C.Brush.Color:= AColor;
+    C.FillRect(r);
+  end;
+  //
 var
   NSize: integer;
   StrSize: TSize;
@@ -91,20 +99,16 @@ var
   Alfa: double;
   r2: TRect;
 begin
-  //paint backgrd
-  C.Pen.Color:= FColorBack;
-  C.Brush.Color:= FColorBack;
-  C.FillRect(r);
-
-  //paint progress color
   case FKind of
     gkText:
       begin
-        //none
+        DoFillBG(FColorBack);
       end;
 
     gkHorizontalBar:
       begin
+        DoFillBG(FColorBack);
+
         C.Brush.Color:= FColorFore;
         NSize:= Round((r.Right-r.Left) * GetPartDoneFloat);
         C.FillRect(r.Left, r.Top, r.Left+NSize, r.Bottom);
@@ -112,6 +116,8 @@ begin
 
     gkVerticalBar:
       begin
+        DoFillBG(FColorBack);
+
         C.Brush.Color:= FColorFore;
         NSize:= Round((r.Bottom-r.Top) * GetPartDoneFloat);
         C.FillRect(r.Left, r.Bottom-NSize, r.Right, r.Bottom);
@@ -119,9 +125,7 @@ begin
 
     gkNeedle:
       begin
-        C.Brush.Color:= Color;
-        C.Pen.Color:= Color;
-        C.FillRect(r);
+        DoFillBG(Color);
 
         if FBorderStyle<>bsNone then NSize:= 1 else NSize:= 0;
         r2:= Rect(
@@ -148,9 +152,7 @@ begin
 
     gkPie:
       begin
-        C.Brush.Color:= Color;
-        C.Pen.Color:= Color;
-        C.FillRect(r);
+        DoFillBG(Color);
 
         if FBorderStyle<>bsNone then NSize:= 1 else NSize:= 0;
         r2:= Rect(r.Left+NSize, r.Top+NSize, r.Right-NSize, r.Bottom-NSize);
