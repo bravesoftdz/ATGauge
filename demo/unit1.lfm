@@ -14,8 +14,8 @@ object Form1: TForm1
     Left = 264
     Height = 24
     Top = 120
-    Width = 97
-    Caption = 'border set'
+    Width = 73
+    Caption = 'border'
     Checked = True
     OnChange = chkBorderChange
     State = cbChecked

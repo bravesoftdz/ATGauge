@@ -89,6 +89,7 @@ var
   StrSize: TSize;
   Str: string;
   Alfa: double;
+  r2: TRect;
 begin
   //paint backgrd
   C.Pen.Color:= FColorBack;
@@ -122,18 +123,27 @@ begin
         C.Pen.Color:= Color;
         C.FillRect(r);
 
+        if FBorderStyle<>bsNone then NSize:= 1 else NSize:= 0;
+        r2:= Rect(
+          r.Left+NSize, r.Top+NSize,
+          r.Right-1-NSize, r.Bottom-1+(r.Bottom-r.Top)-NSize);
+
         C.Pen.Color:= FColorFore;
         C.Brush.Color:= FColorBack;
-        C.Pie(r.Left, r.Top, r.Right-1, r.Bottom+(r.Bottom-r.Top),
+        C.Pie(r2.Left, r2.Top, r2.Right, r2.Bottom,
           r.Right, r.Bottom,
           r.Left, r.Bottom);
 
         Alfa:= pi*GetPartDoneFloat;
-        C.Pie(r.Left, r.Top, r.Right-1, r.Bottom+(r.Bottom-r.Top),
+        C.Pie(r2.Left, r2.Top, r2.Right, r2.Bottom,
           r.Left-Round(1000*cos(Alfa)),
           r.Bottom-Round(1000*sin(Alfa)),
           r.Left,
           r.Bottom);
+
+        C.Pen.Color:= FColorFore;
+        C.MoveTo(r.Left, r.Bottom-1-NSize);
+        C.LineTo(r.Right, r.Bottom-1-NSize);
       end;
 
     gkPie:
@@ -142,16 +152,19 @@ begin
         C.Pen.Color:= Color;
         C.FillRect(r);
 
+        if FBorderStyle<>bsNone then NSize:= 1 else NSize:= 0;
+        r2:= Rect(r.Left+NSize, r.Top+NSize, r.Right-NSize, r.Bottom-NSize);
+
         C.Pen.Color:= FColorFore;
         C.Brush.Color:= FColorBack;
-        C.Ellipse(r.Left, r.Top, r.Right-1, r.Bottom-1);
+        C.Ellipse(r2);
 
         Alfa:= 360*GetPartDoneFloat;
         C.Pen.Color:= FColorFore;
         C.Brush.Color:= FColorFore;
-        C.RadialPie(r.Left, r.Top, r.Right-1, r.Bottom-1,
+        C.RadialPie(r2.Left, r2.Top, r2.Right, r2.Bottom,
           16*90, //starting angle: 90 deg
-          -Round(16*Alfa) //pie angle: Alfa deg (negative)
+          -Round(16*Alfa) //pie angle: -Alfa deg
          );
       end;
   end;
