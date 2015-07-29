@@ -24,6 +24,7 @@ object Form1: TForm1
     ForeColor = clOlive
   end
   object Timer1: TTimer
+    Interval = 200
     OnTimer = Timer1Timer
     left = 22
     top = 86

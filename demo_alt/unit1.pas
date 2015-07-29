@@ -37,7 +37,7 @@ begin
     if progress>=MaxValue then
       progress:= MinValue
     else
-      AddProgress(10);
+      AddProgress(2);
 end;
 
 end.
