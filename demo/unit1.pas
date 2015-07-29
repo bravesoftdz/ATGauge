@@ -19,8 +19,10 @@ type
     bHorz: TRadioButton;
     bVert: TRadioButton;
     bNeedle: TRadioButton;
+    bPie: TRadioButton;
     TrackBar1: TTrackBar;
     procedure bNeedleChange(Sender: TObject);
+    procedure bPieChange(Sender: TObject);
     procedure chkBorderChange(Sender: TObject);
     procedure chkShowtextChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -99,6 +101,11 @@ end;
 procedure TForm1.bNeedleChange(Sender: TObject);
 begin
   g.kind:= gkNeedle;
+end;
+
+procedure TForm1.bPieChange(Sender: TObject);
+begin
+  g.kind:= gkPie;
 end;
 
 procedure TForm1.chkShowtextChange(Sender: TObject);

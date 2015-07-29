@@ -14,7 +14,7 @@ uses
   Classes, SysUtils, Graphics, Controls;
 
 type
-  TGaugeKind = (gkText, gkHorizontalBar, gkVerticalBar, gkNeedle);
+  TGaugeKind = (gkText, gkHorizontalBar, gkVerticalBar, gkNeedle, gkPie);
 
 const
   cInitGaugeValue = 20;
@@ -92,24 +92,27 @@ begin
   C.Brush.Color:= FColorBack;
   C.FillRect(r);
 
-  //paint progress color9
+  //paint progress color
   case FKind of
     gkText:
       begin
         //none
       end;
+
     gkHorizontalBar:
       begin
         C.Brush.Color:= FColorFore;
         NSize:= Round((r.Right-r.Left) * GetPartDoneFloat);
         C.FillRect(r.Left, r.Top, r.Left+NSize, r.Bottom);
       end;
+
     gkVerticalBar:
       begin
         C.Brush.Color:= FColorFore;
         NSize:= Round((r.Bottom-r.Top) * GetPartDoneFloat);
         C.FillRect(r.Left, r.Bottom-NSize, r.Right, r.Bottom);
       end;
+
     gkNeedle:
       begin
         C.Brush.Color:= Color;
@@ -128,6 +131,25 @@ begin
           r.Bottom-Round(1000*sin(Alfa)),
           r.Left,
           r.Bottom);
+      end;
+
+    gkPie:
+      begin
+        C.Brush.Color:= Color;
+        C.Pen.Color:= Color;
+        C.FillRect(r);
+
+        C.Pen.Color:= FColorFore;
+        C.Brush.Color:= FColorBack;
+        C.Ellipse(r.Left, r.Top, r.Right-1, r.Bottom-1);
+
+        Alfa:= 360*GetPartDoneFloat;
+        C.Pen.Color:= FColorFore;
+        C.Brush.Color:= FColorFore;
+        C.RadialPie(r.Left, r.Top, r.Right-1, r.Bottom-1,
+          16*90, //starting angle: 90 deg
+          -Round(16*Alfa) //pie angle: Alfa deg (negative)
+         );
       end;
   end;
 

@@ -89,5 +89,14 @@ object Form1: TForm1
       OnChange = bNeedleChange
       TabOrder = 3
     end
+    object bPie: TRadioButton
+      Left = 8
+      Height = 24
+      Top = 96
+      Width = 47
+      Caption = 'pie'
+      OnChange = bPieChange
+      TabOrder = 4
+    end
   end
 end

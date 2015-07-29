@@ -37,13 +37,14 @@ begin
     if progress>=MaxValue then
     begin
       progress:= MinValue;
-      {
       if kind=gkHorizontalBar then
         kind:= gkVerticalBar
       else
+      if kind=gkVerticalBar then
+        kind:= gkPie
+      else
+      if kind=gkPie then
         kind:= gkHorizontalBar;
-        }
-        kind:= gkNeedle;
     end
     else
       AddProgress(2);

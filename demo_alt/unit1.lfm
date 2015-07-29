@@ -17,6 +17,7 @@ object Form1: TForm1
     BorderSpacing.Around = 10
     Font.Color = clCream
     Font.Height = -21
+    ParentFont = False
     Progress = 40
     MinValue = 10
     MaxValue = 110
