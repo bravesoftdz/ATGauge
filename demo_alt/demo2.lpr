@@ -1,4 +1,4 @@
-program demo;
+program demo2;
 
 {$mode objfpc}{$H+}
 
@@ -7,13 +7,13 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, Unit1, unit2
+  Forms, Unit1
   { you can add units after this };
 
 {$R *.res}
 
 begin
-  Application.Title:='Demo';
+  Application.Title:='Gauge';
   RequireDerivedFormResource:=True;
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);

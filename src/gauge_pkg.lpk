@@ -13,11 +13,16 @@
     <Description Value="Gauge like Delphi but simpler (no some views)"/>
     <License Value="MPL 2.0, LGPL"/>
     <Version Major="1"/>
-    <Files Count="1">
+    <Files Count="2">
       <Item1>
         <Filename Value="gauges.pas"/>
         <UnitName Value="gauges"/>
       </Item1>
+      <Item2>
+        <Filename Value="gauge_reg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="gauge_reg"/>
+      </Item2>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

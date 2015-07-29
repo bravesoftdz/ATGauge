@@ -31,4 +31,15 @@ object Form1: TForm1
     Position = 0
     TabOrder = 1
   end
+  object CheckBox2: TCheckBox
+    Left = 264
+    Height = 24
+    Top = 94
+    Width = 92
+    Caption = 'show text'
+    Checked = True
+    OnChange = CheckBox2Change
+    State = cbChecked
+    TabOrder = 2
+  end
 end

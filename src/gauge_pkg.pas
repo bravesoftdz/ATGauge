@@ -7,12 +7,13 @@ unit gauge_pkg;
 interface
 
 uses
-  gauges, LazarusPackageIntf;
+  gauges, gauge_reg, LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
+  RegisterUnit('gauge_reg', @gauge_reg.Register);
 end;
 
 initialization

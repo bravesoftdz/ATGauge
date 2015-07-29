@@ -13,8 +13,10 @@ type
 
   TForm1 = class(TForm)
     CheckBox1: TCheckBox;
+    CheckBox2: TCheckBox;
     TrackBar1: TTrackBar;
     procedure CheckBox1Change(Sender: TObject);
+    procedure CheckBox2Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
@@ -66,6 +68,11 @@ end;
 procedure TForm1.CheckBox1Change(Sender: TObject);
 begin
   if checkbox1.Checked then g.BorderStyle:= bssingle else g.BorderStyle:= bsnone;
+end;
+
+procedure TForm1.CheckBox2Change(Sender: TObject);
+begin
+  g.ShowText:= checkbox2.Checked;
 end;
 
 end.

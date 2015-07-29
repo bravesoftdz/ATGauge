@@ -1,0 +1,44 @@
+unit Unit1;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  gauges;
+
+type
+
+  { TForm1 }
+
+  TForm1 = class(TForm)
+    Gauge1: TGauge;
+    Timer1: TTimer;
+    procedure Timer1Timer(Sender: TObject);
+  private
+    { private declarations }
+  public
+    { public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.lfm}
+
+{ TForm1 }
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  with Gauge1 do
+    if progress>=MaxValue then
+      progress:= MinValue
+    else
+      AddProgress(10);
+end;
+
+end.
+
