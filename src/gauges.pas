@@ -59,6 +59,8 @@ type
     property BorderStyle: TBorderStyle read FBorderStyle write SetBorderStyle default bsSingle;
     property BorderSpacing;
     property Font;
+    property ParentFont;
+    property ParentShowHint;
     property Kind: TGaugeKind read FKind write SetKind default cInitGaugeKind;
     property Progress: integer read FProgress write SetProgress default cInitGaugeValue;
     property MinValue: integer read FMinValue write SetMinValue default 0;
