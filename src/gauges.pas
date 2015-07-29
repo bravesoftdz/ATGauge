@@ -14,7 +14,7 @@ uses
   Classes, SysUtils, Graphics, Controls;
 
 type
-  TGaugeKind = (gkText, gkHorizontalBar, gkVerticalBar, gkNeedle, gkPie);
+  TGaugeKind = (gkText, gkHorizontalBar, gkVerticalBar, gkPie, gkNeedle);
 
 const
   cInitGaugeValue = 20;
