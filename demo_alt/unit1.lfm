@@ -15,8 +15,10 @@ object Form1: TForm1
     Width = 371
     Align = alClient
     BorderSpacing.Around = 10
+    Color = clBtnFace
     Font.Color = clCream
     Font.Height = -21
+    ParentColor = False
     ParentFont = False
     Progress = 40
     MinValue = 10

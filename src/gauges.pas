@@ -61,8 +61,11 @@ type
     property BorderSpacing;
     property Color;
     property Font;
+    property ParentColor;
     property ParentFont;
     property ParentShowHint;
+    property PopupMenu;
+    property ShowHint;
     property Kind: TGaugeKind read FKind write SetKind default cInitGaugeKind;
     property Progress: integer read FProgress write SetProgress default cInitGaugeValue;
     property MinValue: integer read FMinValue write SetMinValue default 0;
