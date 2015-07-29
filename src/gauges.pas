@@ -136,14 +136,14 @@ begin
 
         Alfa:= pi*GetPartDoneFloat;
         C.Pie(r2.Left, r2.Top, r2.Right, r2.Bottom,
-          r.Left-Round(1000*cos(Alfa)),
-          r.Bottom-Round(1000*sin(Alfa)),
-          r.Left,
-          r.Bottom);
+          r2.Left-Round(1000*cos(Alfa)),
+          r2.Bottom-Round(1000*sin(Alfa)),
+          r2.Left,
+          r2.Bottom);
 
         C.Pen.Color:= FColorFore;
-        C.MoveTo(r.Left, r.Bottom-1-NSize);
-        C.LineTo(r.Right, r.Bottom-1-NSize);
+        C.MoveTo(r2.Left, r.Bottom-1-NSize);
+        C.LineTo(r2.Right, r.Bottom-1-NSize);
       end;
 
     gkPie:
