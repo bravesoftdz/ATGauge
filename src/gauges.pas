@@ -174,7 +174,7 @@ begin
   //paint text
   if FShowText then
   begin
-    Str:= IntToStr(PercentDone)+' %';
+    Str:= IntToStr(PercentDone)+'%';
     StrSize:= C.TextExtent(Str);
     C.Font.Assign(Self.Font);
     C.Brush.Style:= bsClear;
