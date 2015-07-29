@@ -43,6 +43,7 @@ begin
   g.parent:= self;
   g.align:= alTop;
   g.BorderSpacing.Around:= 6;
+
   g.ForeColor:= clMoneyGreen;
   g.BackColor:= clYellow;
 

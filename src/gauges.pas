@@ -180,7 +180,7 @@ end;
 
 procedure TGauge.DoOnResize;
 const
-  cResizeBitmapStep = 200;
+  cResizeBitmapStep = 100;
 var
   SizeX, SizeY: integer;
 begin
