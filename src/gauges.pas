@@ -35,6 +35,7 @@ type
     FMaxValue,
     FProgress: integer;
     FShowText: boolean;
+    procedure DoPaintText(C: TCanvas; r: TRect; const Str: string);
     procedure DoPaintTo(C: TCanvas; r: TRect);
     function GetPercentDone: integer;
     function GetPartDoneFloat: Double;
@@ -83,6 +84,46 @@ uses
 
 { TGauge }
 
+procedure TGauge.DoPaintText(C: TCanvas; r: TRect; const Str: string);
+const
+  ColorEmpty = clBlack;
+  ColorFont = clWhite;
+var
+  StrSize: TSize;
+  Bmp: TBitmap;
+  Pnt: TPoint;
+begin
+  StrSize:= C.TextExtent(Str);
+
+  Bmp:= TBitmap.Create;
+  try
+    Bmp.PixelFormat:= pf24bit;
+    Bmp.SetSize(StrSize.cx, StrSize.cy);
+    Bmp.Transparent:= true;
+    Bmp.TransparentColor:= ColorEmpty;
+
+    Bmp.Canvas.Brush.Color:= ColorEmpty;
+    Bmp.Canvas.FillRect(0, 0, Bmp.Width, Bmp.Height);
+
+    Bmp.Canvas.Font.Assign(Self.Font);
+    Bmp.Canvas.Font.Color:= ColorFont;
+    Bmp.Canvas.Font.Quality:= fqNonAntialiased; //dont work
+    Bmp.Canvas.TextOut(0, 0, Str);
+
+    Pnt.X:= (r.Left+r.Right-StrSize.cx) div 2;
+    Pnt.Y:= (r.Top+r.Bottom-StrSize.cy) div 2;
+
+    C.CopyMode:= cmSrcInvert;
+    C.CopyRect(
+      Rect(Pnt.X, Pnt.Y, Pnt.X+StrSize.cx, Pnt.Y+StrSize.cy),
+      Bmp.Canvas,
+      Rect(0, 0, StrSize.cx, StrSize.cy));
+    C.CopyMode:= cmSrcCopy;
+  finally
+    Bmp.Free;
+  end;
+end;
+
 procedure TGauge.DoPaintTo(C: TCanvas; r: TRect);
   //
   procedure DoFillBG(AColor: TColor);
@@ -94,8 +135,6 @@ procedure TGauge.DoPaintTo(C: TCanvas; r: TRect);
   //
 var
   NSize: integer;
-  StrSize: TSize;
-  Str: string;
   Alfa: double;
   r2: TRect;
 begin
@@ -174,15 +213,7 @@ begin
   //paint text
   if FShowText then
   begin
-    Str:= IntToStr(PercentDone)+'%';
-    StrSize:= C.TextExtent(Str);
-    C.Font.Assign(Self.Font);
-    C.Brush.Style:= bsClear;
-    C.TextOut(
-      (r.Left+r.Right-StrSize.cx) div 2,
-      (r.Top+r.Bottom-StrSize.cy) div 2,
-      Str);
-    C.Brush.Style:= bsSolid;
+    DoPaintText(C, r, IntToStr(PercentDone)+'%');
   end;
 
   //paint border
@@ -295,6 +326,7 @@ begin
   Height:= 50;
 
   FBitmap:= TBitmap.Create;
+  FBitmap.PixelFormat:= pf24bit;
   FBitmap.SetSize(500, 80);
 
   FKind:= cInitGaugeKind;
