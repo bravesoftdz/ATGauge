@@ -35,7 +35,9 @@ type
     FMaxValue,
     FProgress: integer;
     FShowText: boolean;
-    procedure DoPaintText(C: TCanvas; r: TRect; const Str: string);
+    FShowTextInverted: boolean;
+    procedure DoPaintTextInverted(C: TCanvas; r: TRect; const Str: string);
+    procedure DoPaintTextUsual(C: TCanvas; r: TRect; const Str: string);
     procedure DoPaintTo(C: TCanvas; r: TRect);
     function GetPercentDone: integer;
     function GetPartDoneFloat: Double;
@@ -48,6 +50,7 @@ type
     procedure SetMinValue(AValue: integer);
     procedure SetProgress(AValue: integer);
     procedure SetShowText(AValue: boolean);
+    procedure SetShowTextInverted(AValue: boolean);
   protected
     procedure Paint; override;
     procedure DoOnResize; override;
@@ -75,6 +78,7 @@ type
     property ForeColor: TColor read FColorFore write SetColorFore default clNavy;
     property BorderColor: TColor read FColorBorder write SetColorBorder default clBlack;
     property ShowText: boolean read FShowText write SetShowText default true;
+    property ShowTextInverted: boolean read FShowTextInverted write SetShowTextInverted default false;
   end;
 
 implementation
@@ -84,7 +88,21 @@ uses
 
 { TGauge }
 
-procedure TGauge.DoPaintText(C: TCanvas; r: TRect; const Str: string);
+procedure TGauge.DoPaintTextUsual(C: TCanvas; r: TRect; const Str: string);
+var
+  StrSize: TSize;
+begin
+  StrSize:= C.TextExtent(Str);
+  C.Font.Assign(Self.Font);
+  C.Brush.Style:= bsClear;
+  C.TextOut(
+    (r.Left+r.Right-StrSize.cx) div 2,
+    (r.Top+r.Bottom-StrSize.cy) div 2,
+    Str);
+  C.Brush.Style:= bsSolid;
+end;
+
+procedure TGauge.DoPaintTextInverted(C: TCanvas; r: TRect; const Str: string);
 const
   ColorEmpty = clBlack;
   ColorFont = clWhite;
@@ -107,7 +125,8 @@ begin
 
     Bmp.Canvas.Font.Assign(Self.Font);
     Bmp.Canvas.Font.Color:= ColorFont;
-    Bmp.Canvas.Font.Quality:= fqNonAntialiased; //dont work
+    //Bmp.Canvas.Font.Quality:= fqNonAntialiased; //dont help
+    Bmp.Canvas.AntialiasingMode:= amOn; //helps on QT
     Bmp.Canvas.TextOut(0, 0, Str);
 
     Pnt.X:= (r.Left+r.Right-StrSize.cx) div 2;
@@ -136,6 +155,7 @@ procedure TGauge.DoPaintTo(C: TCanvas; r: TRect);
 var
   NSize: integer;
   Alfa: double;
+  Str: string;
   r2: TRect;
 begin
   case FKind of
@@ -213,7 +233,11 @@ begin
   //paint text
   if FShowText then
   begin
-    DoPaintText(C, r, IntToStr(PercentDone)+'%');
+    Str:= IntToStr(PercentDone)+'%';
+    if FShowTextInverted then
+      DoPaintTextInverted(C, r, Str)
+    else
+      DoPaintTextUsual(C, r, Str);
   end;
 
   //paint border
@@ -301,6 +325,13 @@ begin
   Update;
 end;
 
+procedure TGauge.SetShowTextInverted(AValue: boolean);
+begin
+  if FShowTextInverted=AValue then Exit;
+  FShowTextInverted:=AValue;
+  Update;
+end;
+
 procedure TGauge.Paint;
 var
   R: TRect;
@@ -341,6 +372,7 @@ begin
   FMaxValue:= 100;
   FProgress:= cInitGaugeValue;
   FShowText:= true;
+  FShowTextInverted:= false;
 end;
 
 destructor TGauge.Destroy;
