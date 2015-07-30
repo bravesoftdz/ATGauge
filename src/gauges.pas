@@ -35,6 +35,9 @@ type
     FMaxValue,
     FProgress: integer;
     FShowText: boolean;
+    FShowTextInverted: boolean;
+    procedure DoPaintTextInverted(C: TCanvas; r: TRect; const Str: string);
+    procedure DoPaintTextUsual(C: TCanvas; r: TRect; const Str: string);
     procedure DoPaintTo(C: TCanvas; r: TRect);
     function GetPercentDone: integer;
     function GetPartDoneFloat: Double;
@@ -47,6 +50,7 @@ type
     procedure SetMinValue(AValue: integer);
     procedure SetProgress(AValue: integer);
     procedure SetShowText(AValue: boolean);
+    procedure SetShowTextInverted(AValue: boolean);
   protected
     procedure Paint; override;
     procedure DoOnResize; override;
@@ -74,6 +78,7 @@ type
     property ForeColor: TColor read FColorFore write SetColorFore default clNavy;
     property BorderColor: TColor read FColorBorder write SetColorBorder default clBlack;
     property ShowText: boolean read FShowText write SetShowText default true;
+    property ShowTextInverted: boolean read FShowTextInverted write SetShowTextInverted default false;
   end;
 
 implementation
@@ -82,6 +87,61 @@ uses
   Math, Types, LCLType, LCLIntf;
 
 { TGauge }
+
+procedure TGauge.DoPaintTextUsual(C: TCanvas; r: TRect; const Str: string);
+var
+  StrSize: TSize;
+begin
+  StrSize:= C.TextExtent(Str);
+  C.Font.Assign(Self.Font);
+  C.Brush.Style:= bsClear;
+  C.TextOut(
+    (r.Left+r.Right-StrSize.cx) div 2,
+    (r.Top+r.Bottom-StrSize.cy) div 2,
+    Str);
+  C.Brush.Style:= bsSolid;
+end;
+
+procedure TGauge.DoPaintTextInverted(C: TCanvas; r: TRect; const Str: string);
+const
+  ColorEmpty = clBlack;
+  ColorFont = clWhite;
+var
+  StrSize: TSize;
+  Bmp: TBitmap;
+  Pnt: TPoint;
+begin
+  StrSize:= C.TextExtent(Str);
+
+  Bmp:= TBitmap.Create;
+  try
+    Bmp.PixelFormat:= pf24bit;
+    Bmp.SetSize(StrSize.cx, StrSize.cy);
+    Bmp.Transparent:= true;
+    Bmp.TransparentColor:= ColorEmpty;
+
+    Bmp.Canvas.Brush.Color:= ColorEmpty;
+    Bmp.Canvas.FillRect(0, 0, Bmp.Width, Bmp.Height);
+
+    Bmp.Canvas.Font.Assign(Self.Font);
+    Bmp.Canvas.Font.Color:= ColorFont;
+    //Bmp.Canvas.Font.Quality:= fqNonAntialiased; //dont help
+    Bmp.Canvas.AntialiasingMode:= amOn; //helps on QT
+    Bmp.Canvas.TextOut(0, 0, Str);
+
+    Pnt.X:= (r.Left+r.Right-StrSize.cx) div 2;
+    Pnt.Y:= (r.Top+r.Bottom-StrSize.cy) div 2;
+
+    C.CopyMode:= cmSrcInvert;
+    C.CopyRect(
+      Rect(Pnt.X, Pnt.Y, Pnt.X+StrSize.cx, Pnt.Y+StrSize.cy),
+      Bmp.Canvas,
+      Rect(0, 0, StrSize.cx, StrSize.cy));
+    C.CopyMode:= cmSrcCopy;
+  finally
+    Bmp.Free;
+  end;
+end;
 
 procedure TGauge.DoPaintTo(C: TCanvas; r: TRect);
   //
@@ -94,9 +154,8 @@ procedure TGauge.DoPaintTo(C: TCanvas; r: TRect);
   //
 var
   NSize: integer;
-  StrSize: TSize;
-  Str: string;
   Alfa: double;
+  Str: string;
   r2: TRect;
 begin
   case FKind of
@@ -175,14 +234,10 @@ begin
   if FShowText then
   begin
     Str:= IntToStr(PercentDone)+'%';
-    StrSize:= C.TextExtent(Str);
-    C.Font.Assign(Self.Font);
-    C.Brush.Style:= bsClear;
-    C.TextOut(
-      (r.Left+r.Right-StrSize.cx) div 2,
-      (r.Top+r.Bottom-StrSize.cy) div 2,
-      Str);
-    C.Brush.Style:= bsSolid;
+    if FShowTextInverted then
+      DoPaintTextInverted(C, r, Str)
+    else
+      DoPaintTextUsual(C, r, Str);
   end;
 
   //paint border
@@ -270,6 +325,13 @@ begin
   Update;
 end;
 
+procedure TGauge.SetShowTextInverted(AValue: boolean);
+begin
+  if FShowTextInverted=AValue then Exit;
+  FShowTextInverted:=AValue;
+  Update;
+end;
+
 procedure TGauge.Paint;
 var
   R: TRect;
@@ -295,6 +357,7 @@ begin
   Height:= 50;
 
   FBitmap:= TBitmap.Create;
+  FBitmap.PixelFormat:= pf24bit;
   FBitmap.SetSize(500, 80);
 
   FKind:= cInitGaugeKind;
@@ -309,6 +372,7 @@ begin
   FMaxValue:= 100;
   FProgress:= cInitGaugeValue;
   FShowText:= true;
+  FShowTextInverted:= false;
 end;
 
 destructor TGauge.Destroy;

@@ -12,6 +12,7 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    chkTextInvert: TCheckBox;
     chkBorder: TCheckBox;
     chkShowtext: TCheckBox;
     GroupBox1: TGroupBox;
@@ -25,6 +26,7 @@ type
     procedure bPieChange(Sender: TObject);
     procedure chkBorderChange(Sender: TObject);
     procedure chkShowtextChange(Sender: TObject);
+    procedure chkTextInvertChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure bTextChange(Sender: TObject);
@@ -111,6 +113,11 @@ end;
 procedure TForm1.chkShowtextChange(Sender: TObject);
 begin
   g.ShowText:= chkShowtext.Checked;
+end;
+
+procedure TForm1.chkTextInvertChange(Sender: TObject);
+begin
+  g.ShowTextInverted:= chkTextInvert.Checked;
 end;
 
 end.
