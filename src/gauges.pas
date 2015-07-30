@@ -125,8 +125,8 @@ begin
 
     Bmp.Canvas.Font.Assign(Self.Font);
     Bmp.Canvas.Font.Color:= ColorFont;
-    //Bmp.Canvas.Font.Quality:= fqNonAntialiased; //dont help
-    Bmp.Canvas.AntialiasingMode:= amOn; //helps on QT
+    Bmp.Canvas.Font.Quality:= fqNonAntialiased; //antialias
+    Bmp.Canvas.AntialiasingMode:= amOn; //antialias
     Bmp.Canvas.TextOut(0, 0, Str);
 
     Pnt.X:= (r.Left+r.Right-StrSize.cx) div 2;
@@ -264,35 +264,35 @@ procedure TGauge.SetColorBorder(AValue: TColor);
 begin
   if FColorBorder=AValue then Exit;
   FColorBorder:=AValue;
-  Update;
+  Invalidate;
 end;
 
 procedure TGauge.SetBorderStyle(AValue: TBorderStyle);
 begin
   if FBorderStyle=AValue then Exit;
   FBorderStyle:=AValue;
-  Update;
+  Invalidate;
 end;
 
 procedure TGauge.SetColorBack(AValue: TColor);
 begin
   if FColorBack=AValue then Exit;
   FColorBack:=AValue;
-  Update;
+  Invalidate;
 end;
 
 procedure TGauge.SetColorFore(AValue: TColor);
 begin
   if FColorFore=AValue then Exit;
   FColorFore:=AValue;
-  Update;
+  Invalidate;
 end;
 
 procedure TGauge.SetKind(AValue: TGaugeKind);
 begin
   if FKind=AValue then Exit;
   FKind:=AValue;
-  Update;
+  Invalidate;
 end;
 
 procedure TGauge.SetMaxValue(AValue: integer);
@@ -300,7 +300,7 @@ begin
   if FMaxValue=AValue then Exit;
   FMaxValue:=Max(FMinValue+1, AValue);
   FProgress:=Min(FProgress, FMaxValue);
-  Update;
+  Invalidate;
 end;
 
 procedure TGauge.SetMinValue(AValue: integer);
@@ -308,28 +308,28 @@ begin
   if FMinValue=AValue then Exit;
   FMinValue:=Min(FMaxValue-1, AValue);
   FProgress:=Max(FProgress, FMinValue);
-  Update;
+  Invalidate;
 end;
 
 procedure TGauge.SetProgress(AValue: integer);
 begin
   if FProgress=AValue then Exit;
   FProgress:=Max(FMinValue, Min(FMaxValue, AValue));
-  Update;
+  Invalidate;
 end;
 
 procedure TGauge.SetShowText(AValue: boolean);
 begin
   if FShowText=AValue then Exit;
   FShowText:=AValue;
-  Update;
+  Invalidate;
 end;
 
 procedure TGauge.SetShowTextInverted(AValue: boolean);
 begin
   if FShowTextInverted=AValue then Exit;
   FShowTextInverted:=AValue;
-  Update;
+  Invalidate;
 end;
 
 procedure TGauge.Paint;
@@ -405,7 +405,7 @@ begin
     end;
   end;
 
-  Update;
+  Invalidate;
 end;
 
 
