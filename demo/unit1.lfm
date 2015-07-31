@@ -44,11 +44,11 @@ object Form1: TForm1
   end
   object GroupBox1: TGroupBox
     Left = 312
-    Height = 144
+    Height = 168
     Top = 128
     Width = 145
     Caption = 'kind'
-    ClientHeight = 125
+    ClientHeight = 149
     ClientWidth = 141
     TabOrder = 4
     object bText: TRadioButton
@@ -97,6 +97,15 @@ object Form1: TForm1
       Caption = 'pie'
       OnChange = bPieChange
       TabOrder = 3
+    end
+    object bHalfPie: TRadioButton
+      Left = 8
+      Height = 24
+      Top = 120
+      Width = 73
+      Caption = 'halfpie'
+      OnChange = bHalfPieChange
+      TabOrder = 5
     end
   end
   object chkTextInvert: TCheckBox

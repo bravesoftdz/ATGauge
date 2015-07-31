@@ -12,6 +12,7 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    bHalfPie: TRadioButton;
     chkTextInvert: TCheckBox;
     chkBorder: TCheckBox;
     chkShowtext: TCheckBox;
@@ -22,6 +23,7 @@ type
     bNeedle: TRadioButton;
     bPie: TRadioButton;
     TrackBar1: TTrackBar;
+    procedure bHalfPieChange(Sender: TObject);
     procedure bNeedleChange(Sender: TObject);
     procedure bPieChange(Sender: TObject);
     procedure chkBorderChange(Sender: TObject);
@@ -103,6 +105,11 @@ end;
 procedure TForm1.bNeedleChange(Sender: TObject);
 begin
   g.kind:= gkNeedle;
+end;
+
+procedure TForm1.bHalfPieChange(Sender: TObject);
+begin
+  g.kind:= gkHalfPie;
 end;
 
 procedure TForm1.bPieChange(Sender: TObject);

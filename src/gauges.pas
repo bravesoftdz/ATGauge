@@ -14,7 +14,14 @@ uses
   Classes, SysUtils, Graphics, Controls;
 
 type
-  TGaugeKind = (gkText, gkHorizontalBar, gkVerticalBar, gkPie, gkNeedle);
+  TGaugeKind = (
+    gkText,
+    gkHorizontalBar,
+    gkVerticalBar,
+    gkPie,
+    gkNeedle,
+    gkHalfPie
+    );
 
 const
   cInitGaugeValue = 20;
@@ -182,7 +189,8 @@ begin
         C.FillRect(r.Left, r.Bottom-NSize, r.Right, r.Bottom);
       end;
 
-    gkNeedle:
+    gkNeedle,
+    gkHalfPie:
       begin
         DoFillBG(Color);
 
@@ -196,6 +204,9 @@ begin
         C.Pie(r2.Left, r2.Top, r2.Right, r2.Bottom,
           r.Right, r.Bottom,
           r.Left, r.Bottom);
+
+        if FKind=gkHalfPie then
+          C.Brush.Color:= FColorFore;
 
         Alfa:= pi*GetPartDoneFloat;
         C.Pie(r2.Left, r2.Top, r2.Right, r2.Bottom,
