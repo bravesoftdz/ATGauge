@@ -4,10 +4,11 @@
 
 unit gauge_pkg;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  gauges, gauge_reg, LazarusPackageIntf;
+  Gauges, gauge_reg, LazarusPackageIntf;
 
 implementation
 

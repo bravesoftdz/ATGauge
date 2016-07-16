@@ -32,6 +32,7 @@ type
 
   TGauge = class(TGraphicControl)
   private
+    FDoubleBuffered: boolean;
     FBitmap: TBitmap;
     FBorderStyle: TBorderStyle;
     FKind: TGaugeKind;
@@ -71,6 +72,7 @@ type
     property BorderStyle: TBorderStyle read FBorderStyle write SetBorderStyle default bsSingle;
     property BorderSpacing;
     property Color;
+    property DoubleBuffered: boolean read FDoubleBuffered write FDoubleBuffered;
     property Font;
     property ParentColor;
     property ParentFont;
@@ -92,6 +94,23 @@ implementation
 
 uses
   Math, Types, LCLType, LCLIntf;
+
+function IsDoubleBufferedNeeded: boolean;
+begin
+  Result:= false;
+
+  {$ifdef windows}
+  exit(true);
+  {$endif}
+
+  {$ifdef darwin}
+  exit(false);
+  {$endif}
+
+  {$ifdef linux}
+  exit(false);
+  {$endif}
+end;
 
 { TGauge }
 
@@ -350,9 +369,14 @@ begin
   inherited;
 
   R:= ClientRect;
-  FBitmap.Canvas.Font.Assign(Self.Font);
-  DoPaintTo(FBitmap.Canvas, R);
-  Canvas.CopyRect(R, FBitmap.Canvas, R);
+  if DoubleBuffered then
+  begin
+    FBitmap.Canvas.Font.Assign(Self.Font);
+    DoPaintTo(FBitmap.Canvas, R);
+    Canvas.CopyRect(R, FBitmap.Canvas, R);
+  end
+  else
+    DoPaintTo(Canvas, R);
 end;
 
 
@@ -371,6 +395,7 @@ begin
   FBitmap.PixelFormat:= pf24bit;
   FBitmap.SetSize(500, 80);
 
+  FDoubleBuffered:= IsDoubleBufferedNeeded;
   FKind:= cInitGaugeKind;
   FBorderStyle:= bsSingle;
 
@@ -405,6 +430,7 @@ var
 begin
   inherited;
 
+  if DoubleBuffered then
   if Assigned(FBitmap) then
   begin
     SizeX:= (Width div cResizeBitmapStep + 1)*cResizeBitmapStep;

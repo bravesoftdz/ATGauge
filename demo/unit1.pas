@@ -6,22 +6,24 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ComCtrls,
-  Gauges;
+  ExtCtrls, Gauges;
 
 type
   { TForm1 }
 
   TForm1 = class(TForm)
     bHalfPie: TRadioButton;
-    chkTextInvert: TCheckBox;
-    chkBorder: TCheckBox;
-    chkShowtext: TCheckBox;
-    GroupBox1: TGroupBox;
-    bText: TRadioButton;
     bHorz: TRadioButton;
-    bVert: TRadioButton;
     bNeedle: TRadioButton;
     bPie: TRadioButton;
+    bText: TRadioButton;
+    bVert: TRadioButton;
+    chkBorder: TCheckBox;
+    chkShowtext: TCheckBox;
+    chkTextInvert: TCheckBox;
+    GroupBox1: TGroupBox;
+    PanelBtm: TPanel;
+    PanelTop: TPanel;
     TrackBar1: TTrackBar;
     procedure bHalfPieChange(Sender: TObject);
     procedure bNeedleChange(Sender: TObject);
@@ -56,10 +58,9 @@ const
   cMin = 15;
   cMax = 122;
 begin
-  g:= tgauge.create(Self);
-  g.parent:= self;
-  g.align:= alTop;
-  g.height:= 100;
+  g:= TGauge.create(Self);
+  g.parent:= PanelTop;
+  g.align:= alClient;
   g.BorderSpacing.Around:= 6;
 
   g.ForeColor:= clGreen;
