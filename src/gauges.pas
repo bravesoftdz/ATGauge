@@ -88,6 +88,15 @@ type
     property BorderColor: TColor read FColorBorder write SetColorBorder default clBlack;
     property ShowText: boolean read FShowText write SetShowText default true;
     property ShowTextInverted: boolean read FShowTextInverted write SetShowTextInverted default false;
+    property OnClick;
+    property OnDblClick;
+    property OnResize;
+    property OnContextPopup;
+    property OnMouseDown;
+    property OnMouseUp;
+    property OnMouseMove;
+    property OnMouseEnter;
+    property OnMouseLeave;
   end;
 
 implementation
