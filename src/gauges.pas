@@ -111,7 +111,7 @@ uses
 
 function IsDoubleBufferedNeeded: boolean;
 begin
-  Result:= WidgetSet.GetLCLCapability(lcCanDrawOutsideOnPaint) = LCL_CAPABILITY_NO;
+  Result:= WidgetSet.GetLCLCapability(lcCanDrawOutsideOnPaint) = LCL_CAPABILITY_YES;
 end;
 
 { TGauge }
