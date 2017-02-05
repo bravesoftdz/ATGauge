@@ -69,9 +69,11 @@ type
     property PercentDone: integer read GetPercentDone;
   published
     property Align;
+    property Anchors;
     property BorderStyle: TBorderStyle read FBorderStyle write SetBorderStyle default bsSingle;
     property BorderSpacing;
     property Color;
+    property Constraints;
     property DoubleBuffered: boolean read FDoubleBuffered write FDoubleBuffered;
     property Font;
     property ParentColor;
