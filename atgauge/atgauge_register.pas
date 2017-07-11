@@ -1,9 +1,9 @@
-unit gauge_reg;
+unit atgauge_register;
 
 interface
 
 uses
-  SysUtils, Classes, Controls, LResources, gauges;
+  SysUtils, Classes, Controls, LResources, atgauge;
 
 procedure Register;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <Package Version="4">
-    <Name Value="gauge_pkg"/>
+    <Name Value="atgauge_package"/>
     <Type Value="RunAndDesignTime"/>
     <Author Value="Alexey Torgashin"/>
     <CompilerOptions>
@@ -15,13 +15,13 @@
     <Version Major="1"/>
     <Files Count="2">
       <Item1>
-        <Filename Value="gauges.pas"/>
-        <UnitName Value="gauges"/>
+        <Filename Value="atgauge.pas"/>
+        <UnitName Value="ATGauge"/>
       </Item1>
       <Item2>
-        <Filename Value="gauge_reg.pas"/>
+        <Filename Value="atgauge_register.pas"/>
         <HasRegisterProc Value="True"/>
-        <UnitName Value="gauge_reg"/>
+        <UnitName Value="atgauge_register"/>
       </Item2>
     </Files>
     <RequiredPkgs Count="2">

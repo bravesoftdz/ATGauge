@@ -4,7 +4,7 @@ Written for Lazarus LCL
 License: MPL 2.0 or LGPL or any license which LCL can use
 }
 
-unit Gauges;
+unit ATGauge;
 
 {$mode objfpc}{$H+}
 

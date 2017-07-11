@@ -2,21 +2,21 @@
   This source is only used to compile and install the package.
  }
 
-unit gauge_pkg;
+unit atgauge_package;
 
 {$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  Gauges, gauge_reg, LazarusPackageIntf;
+  ATGauge, atgauge_register, LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
-  RegisterUnit('gauge_reg', @gauge_reg.Register);
+  RegisterUnit('atgauge_register', @atgauge_register.Register);
 end;
 
 initialization
-  RegisterPackage('gauge_pkg', @Register);
+  RegisterPackage('atgauge_package', @Register);
 end.
